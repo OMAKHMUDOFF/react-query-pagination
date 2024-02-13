@@ -1,21 +1,5 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { useQuery } from "react-query";
-
-async function fetchApi(skip) {
-  const data = await axios(
-    `https://dummyjson.com/products?skip=${skip}&limit=10`
-  );
-  return data.data.products;
-}
-export const Table = () => {
-  const [page, setPage] = useState(0);
-  const { isLoading, error, data } = useQuery(
-    ["products", page],
-    () => fetchApi(page),
-    { keepPreviousData: true, refetchOnWindowFocus: false }
-  );
-  console.log(data);
+export const Table = ({ api, nextPage, prevPage, page }) => {
+  const { data, isLoading, error } = api;
   if (error) return <div>Request Failed</div>;
   if (isLoading) return <div>Loading...</div>;
   return (
@@ -43,10 +27,10 @@ export const Table = () => {
         </tbody>
       </table>
 
-      <button onClick={() => setPage((p) => p - 10)} disabled={!page}>
+      <button onClick={prevPage} disabled={!page}>
         prev
       </button>
-      <button onClick={() => setPage((p) => p + 10)}>next</button>
+      <button onClick={nextPage}>next</button>
     </div>
   );
 };
