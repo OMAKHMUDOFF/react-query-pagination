@@ -1,4 +1,4 @@
-export const Table = ({ api, nextPage, prevPage, page }) => {
+export const Table = ({ api }) => {
   const { data, isLoading, error } = api;
   if (error) return <div>Request Failed</div>;
   if (isLoading) return <div>Loading...</div>;
@@ -9,28 +9,19 @@ export const Table = ({ api, nextPage, prevPage, page }) => {
           <tr>
             <th>№</th>
             <th>Назв-ие</th>
-            <th>Цена</th>
-            <th>Фото</th>
+            <th>Рейтинг</th>
           </tr>
         </thead>
         <tbody>
           {data.map((el) => (
             <tr key={el.id}>
               <th>{el.id}</th>
-              <td>{el.title}</td>
-              <td>{el.price}</td>
-              <td>
-                <img width={20} src={el.thumbnail} alt="" />
-              </td>
+              <td>{el.fullName}</td>
+              <td>{el.rating}</td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      <button onClick={prevPage} disabled={!page}>
-        prev
-      </button>
-      <button onClick={nextPage}>next</button>
     </div>
   );
 };
